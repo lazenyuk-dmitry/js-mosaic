@@ -3,13 +3,14 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const path = require('path');
 const environment = process.env.NODE_ENV;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     mode: environment,
     entry: './src/app.js',
     output: {
         path: path.resolve(__dirname, '../dist'),
-        filename: 'main.app.js'
+        filename: '[name].[chunkhash].js'
     },
     resolve: {
         extensions: ['.js']
@@ -20,8 +21,6 @@ module.exports = {
                 test: /\.vue$/,
                 loader: 'vue-loader'
             },
-            // this will apply to both plain `.js` files
-            // AND `<script>` blocks in `.vue` files
             {
                 test: /\.js$/,
                 exclude: /(node_modules)/,
@@ -32,13 +31,24 @@ module.exports = {
                     ]
                 }
             },
-            // this will apply to both plain `.css` files
-            // AND `<style>` blocks in `.vue` files
             {
                 test: /\.css$/,
                 use: [
                     'vue-style-loader',
-                    'css-loader'
+                    'css-loader',
+                    'postcss-loader'
+                ]
+            },
+            {
+                test: /\.(png|jpg|gif|svg)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'assets/images'
+                        }
+                    }
                 ]
             }
         ]
@@ -53,6 +63,10 @@ module.exports = {
                 removeComments: true,
                 collapseWhitespace: false
             }
-        })
+        }),
+        new CopyWebpackPlugin([{
+            from:'./src/assets',
+            to:'assets'
+        }])
     ],
 };
