@@ -1,13 +1,14 @@
 <template>
-  <div>
-    <h1>Hello World!</h1>
-
-    <img
-      src="./assets/images/imgExample.png"
-      alt=""
-    >
+  <div id="app">
+    <router-view />
   </div>
 </template>
+
+<script>
+export default {
+  name: 'App',
+};
+</script>
 
 <style>
   h1 {
