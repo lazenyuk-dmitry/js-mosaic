@@ -1,0 +1,18 @@
+body,
+html {
+  font-family: sans-serif;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+h1 {
+  background-color: green;
+  user-select: none;
+}
