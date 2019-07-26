@@ -44,10 +44,11 @@ module.exports = {
         ],
       },
       {
-        test: /\.css$/,
+        test: /\.(css|sass|scss)$/,
         use: [
           'vue-style-loader',
           'css-loader',
+          'sass-loader',
           'postcss-loader',
         ],
       },

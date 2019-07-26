@@ -8,5 +8,7 @@ module.exports = merge(webpackBaseConfig, {
     port: 9000,
     hot: true,
     liveReload: false,
+    stats: 'minimal',
+    clientLogLevel: 'silent',
   },
 });
