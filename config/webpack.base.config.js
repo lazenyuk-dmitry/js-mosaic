@@ -25,7 +25,12 @@ module.exports = {
         test: /\.vue$/,
         use: [
           'vue-loader',
-          'eslint-loader',
+          {
+            loader: 'eslint-loader',
+            options: {
+              emitWarning: true,
+            },
+          },
         ],
       },
       {
@@ -40,7 +45,12 @@ module.exports = {
               ],
             },
           },
-          'eslint-loader',
+          {
+            loader: 'eslint-loader',
+            options: {
+              emitWarning: true,
+            },
+          },
         ],
       },
       {
@@ -81,4 +91,7 @@ module.exports = {
       to: 'assets',
     }]),
   ],
+  optimization: {
+    noEmitOnErrors: true,
+  },
 };

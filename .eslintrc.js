@@ -21,6 +21,7 @@ module.exports = {
     "rules": {
         "no-new": "off",
         "no-undef": "off",
+        "no-plusplus": "off",
         "import/no-extraneous-dependencies": "off",
         "import/no-unresolved": "off",
         "global-require": "off"
