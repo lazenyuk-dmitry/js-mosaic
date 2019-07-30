@@ -51,8 +51,16 @@ export default {
     return {
       originalImg: new Image(),
       imgReady: false,
-      draggableThumb: null,
-      draggableItem: null,
+      draggableItem: {
+        element: null,
+        thumb: null,
+        display: null,
+        animationSpeed: '.5s',
+        startPosition: {
+          x: 0,
+          y: 0,
+        },
+      },
       mosaic: {
         rows: 2,
         cols: 3,
@@ -146,27 +154,45 @@ export default {
       });
     },
     piecesDragInit(element) {
-      element.addEventListener('mousedown', (e) => {
-        this.draggableItem = e.target;
-        this.draggableThumb = this.cloneCanvas(e.target);
+      element.addEventListener('mousedown', () => {
+        const elementRect = element.getBoundingClientRect();
+
+        this.draggableItem.element = element;
+        this.draggableItem.display = window.getComputedStyle(element).display;
+        this.draggableItem.thumb = this.cloneCanvas(element);
+        this.draggableItem.startPosition.x = elementRect.left + window.pageXOffset;
+        this.draggableItem.startPosition.y = elementRect.top + window.pageYOffset;
 
         document.addEventListener('mousemove', this.moveThumb);
-        document.addEventListener('mouseup', this.removeDragListeners);
+        document.addEventListener('mouseup', this.dropThumb);
       });
     },
     moveThumb(mouse) {
-      const thumb = this.draggableThumb;
+      const { thumb, element } = this.draggableItem;
 
-      this.draggableItem.style.display = 'none';
+      element.style.display = 'none';
 
       document.body.appendChild(thumb);
       thumb.style.position = 'absolute';
       thumb.style.top = `${mouse.pageY}px`;
       thumb.style.left = `${mouse.pageX}px`;
     },
-    removeDragListeners() {
+    dropThumb() {
+      const {
+        thumb,
+        element,
+        startPosition,
+        display,
+      } = this.draggableItem;
+
+      thumb.style.top = `${startPosition.y}px`;
+      thumb.style.left = `${startPosition.x}px`;
+
+      thumb.parentElement.removeChild(thumb);
+      element.style.display = display;
+
       document.removeEventListener('mousemove', this.moveThumb);
-      document.removeEventListener('mouseup', this.removeDragListeners);
+      document.removeEventListener('mouseup', this.dropThumb);
     },
     cloneCanvas(canvas) {
       const newCanvas = document.createElement('canvas');
