@@ -10,9 +10,6 @@ export default {
 };
 </script>
 
-<style>
-  h1 {
-    background-color: green;
-    user-select: none;
-  }
+<style lang="scss">
+  @import "@/styles/base.scss";
 </style>
